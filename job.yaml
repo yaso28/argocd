@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: payday-batch-verifi
 spec:
-  schedule: "0 */1 * * *"
+  schedule: "30 */1 * * *"
   #schedule: "*/3 * * * *"
 
   # ジョブを同時実行するかどうか
