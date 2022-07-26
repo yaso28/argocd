@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: payday-batch-verifi
+  namespace: payday-batch
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: "batkyumei.vjpeaks01.aeonplatform.dev"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: payday-batch-verifi
+                port:
+                  number: 443

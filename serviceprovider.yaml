@@ -1,0 +1,25 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  name: payday-batch-sslsecret
+  namespace: payday-batch
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "true"
+    useVMManagedIdentity: "false"
+    userAssignedIdentityID: "a1691d35-ad2a-40c2-9792-fef456361392"
+    keyvaultName: "v-jpe-payday-kv"
+    tenantId: "86adf02b-3885-41ce-9d93-7cb423e50745"
+    cloudName: AzurePublicCloud
+    objects: |
+      array:
+        - |
+          objectType: secret
+          objectName: AADSSLkyuyo
+  secretObjects:
+    - secretName: aadkyuyo-secret
+      type: Opaque
+      data:
+        - objectName: AADSSLkyuyo
+          key: pem

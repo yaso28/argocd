@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payday-batch-verifi
+  namespace: payday-batch
+  labels:
+    app: payday-batch-verifi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payday-batch-verifi
+  template:
+    metadata:
+      labels:
+        app: payday-batch-verifi
+        aadpodidbinding: v-jpe-payday-batch-app-mngid
+    spec:
+      containers:
+        - name: payday-batch-verifi
+          image: yaso28/payday-batch:0726-1306
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "2048Mi"
+              ephemeral-storage: "2048Mi"
+              #cpu: 125m
+            limits:
+              memory: "4096Mi"
+              ephemeral-storage: "4096Mi"
+              #cpu: 250m
+          #volumeMounts:
+          #- name: aadkyuyo-secret
+          #  mountPath: "/mnt/aadkyuyo-secret"
+          #  readOnly: true
+          env:
+            - name: PayslipServer
+              value: "host.docker.internal"
+      #volumes:
+      #- name: aadkyuyo-secret
+      #  csi:
+      #    driver: secrets-store.csi.k8s.io
+      #    readOnly: true
+      #    volumeAttributes:
+      #      secretProviderClass: "payday-batch-sslsecret"
+      #    nodePublishSecretRef:
+      #      name: aadkyuyo-secret
+      hostAliases:
+        - ip: "198.18.83.178"
+          hostnames:
+            - "v-jpe-payday-db.database.windows.net"
+        - ip: "198.18.83.180"
+          hostnames:
+            - "v-jpe-payday-kv.vault.azure.net"
+        - ip: "198.18.92.71"
+          hostnames:
+            - "pjpejinjisend2022stor.blob.core.windows.net"
